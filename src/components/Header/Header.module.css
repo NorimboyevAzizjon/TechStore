@@ -219,3 +219,34 @@
     padding: 10px 15px;
   }
 }
+/* ... existing code ... */
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userName {
+  color: var(--uzum-text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.logoutBtn {
+  padding: 8px 12px;
+  border: 1px solid var(--uzum-border);
+  border-radius: 6px;
+  background: white;
+  color: var(--uzum-red);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background: var(--uzum-red);
+  color: white;
+}
+
+/* ... rest of existing code ... */

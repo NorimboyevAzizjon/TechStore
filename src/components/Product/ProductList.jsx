@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { useFetch } from '../../hooks/useFetch';
 import styles from './ProductList.module.css';
 
-const ProductList = () => {
+const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
   const { data: products, isLoading, error } = useFetch('https://dummyjson.com/products');
 
   // API dan kelgan ma'lumotlarni formatlaymiz
@@ -21,12 +21,21 @@ const ProductList = () => {
     inStock: product.stock > 0
   })) || [];
 
-  // Mahsulotlarni kategoriyalarga ajratamiz (faqat ishlatiladiganlarni qoldiramiz)
+  // Mahsulotlar yuklanganda App.jsx ga yuboramiz
+  useEffect(() => {
+    if (formattedProducts.length > 0) {
+      onProductsLoaded(formattedProducts);
+    }
+  }, [formattedProducts, onProductsLoaded]);
+
+  // Mahsulotlarni kategoriyalarga ajratamiz
   const smartphones = formattedProducts.filter(p => p.category === "smartphones");
   const laptops = formattedProducts.filter(p => p.category === "laptops");
   const fragrances = formattedProducts.filter(p => p.category === "fragrances");
   const skincare = formattedProducts.filter(p => p.category === "skincare");
   const homeDecoration = formattedProducts.filter(p => p.category === "home-decoration");
+  const groceries = formattedProducts.filter(p => p.category === "groceries");
+  const furniture = formattedProducts.filter(p => p.category === "furniture");
 
   if (isLoading) {
     return (
@@ -67,7 +76,12 @@ const ProductList = () => {
         
         <div className={styles.productsGrid}>
           {formattedProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard 
+              key={product.id} 
+              product={product}
+              onToggleFavorite={onToggleFavorite}
+              isFavorite={favorites.has(product.id)}
+            />
           ))}
         </div>
 
@@ -77,7 +91,12 @@ const ProductList = () => {
             <h3 className={styles.categoryTitle}>📱 Smartfonlar va gadjetlar</h3>
             <div className={styles.productsGrid}>
               {smartphones.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
               ))}
             </div>
           </div>
@@ -89,7 +108,12 @@ const ProductList = () => {
             <h3 className={styles.categoryTitle}>💻 Noutbuklar va kompyuterlar</h3>
             <div className={styles.productsGrid}>
               {laptops.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
               ))}
             </div>
           </div>
@@ -101,7 +125,12 @@ const ProductList = () => {
             <h3 className={styles.categoryTitle}>💄 Go'zallik va parvarish</h3>
             <div className={styles.productsGrid}>
               {skincare.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
               ))}
             </div>
           </div>
@@ -113,7 +142,12 @@ const ProductList = () => {
             <h3 className={styles.categoryTitle}>🌸 Atirlar</h3>
             <div className={styles.productsGrid}>
               {fragrances.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
               ))}
             </div>
           </div>
@@ -125,7 +159,46 @@ const ProductList = () => {
             <h3 className={styles.categoryTitle}>🏠 Uy-ro'zg'or buyumlari</h3>
             <div className={styles.productsGrid}>
               {homeDecoration.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Oziq-ovqat */}
+        {groceries.length > 0 && (
+          <div className={styles.categorySection}>
+            <h3 className={styles.categoryTitle}>🍎 Oziq-ovqat mahsulotlari</h3>
+            <div className={styles.productsGrid}>
+              {groceries.map(product => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Mebel */}
+        {furniture.length > 0 && (
+          <div className={styles.categorySection}>
+            <h3 className={styles.categoryTitle}>🛋️ Mebel</h3>
+            <div className={styles.productsGrid}>
+              {furniture.map(product => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                  onToggleFavorite={onToggleFavorite}
+                  isFavorite={favorites.has(product.id)}
+                />
               ))}
             </div>
           </div>

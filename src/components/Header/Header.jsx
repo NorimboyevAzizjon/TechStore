@@ -1,10 +1,39 @@
 import React, { useState } from 'react';
 import CartIcon from '../Cart/CartIcon';
 import CartSidebar from '../Cart/CartSidebar';
+import FavoritesSidebar from '../Favorites/FavoritesSidebar';
+import LoginModal from '../Auth/LoginModal';
+import { useCart } from '../../hooks/useCart';
 import styles from './Header.module.css';
 
-const Header = () => {
+const Header = ({ favorites, onToggleFavorite, allProducts }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { addToCart } = useCart();
+
+  // Sevimlilardan o'chirish
+  const removeFavorite = (productId) => {
+    onToggleFavorite(productId);
+  };
+
+  // Mahsulotlarni savatga qo'shish
+  const handleAddToCartFromFavorites = (product) => {
+    addToCart(product);
+  };
+
+  // Kirish funksiyasi
+  const handleLogin = (phoneNumber) => {
+    setIsLoggedIn(true);
+    // Bu yerda haqiqiy login logikasi bo'ladi
+    console.log('Foydalanuvchi kirdi:', phoneNumber);
+  };
+
+  // Chiqish funksiyasi
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <>
@@ -41,8 +70,30 @@ const Header = () => {
           </div>
 
           <div className={styles.userActions}>
-            <button className={styles.loginBtn}>Kirish</button>
-            <button className={styles.favoritesBtn}>❤️</button>
+            {isLoggedIn ? (
+              <div className={styles.userMenu}>
+                <span className={styles.userName}>Foydalanuvchi</span>
+                <button 
+                  className={styles.logoutBtn}
+                  onClick={handleLogout}
+                >
+                  Chiqish
+                </button>
+              </div>
+            ) : (
+              <button 
+                className={styles.loginBtn}
+                onClick={() => setIsLoginOpen(true)}
+              >
+                Kirish
+              </button>
+            )}
+            <button 
+              className={styles.favoritesBtn}
+              onClick={() => setIsFavoritesOpen(true)}
+            >
+              ❤️ {favorites.size > 0 && `(${favorites.size})`}
+            </button>
             <button 
               className={styles.cartBtn}
               onClick={() => setIsCartOpen(true)}
@@ -71,6 +122,21 @@ const Header = () => {
       <CartSidebar 
         isOpen={isCartOpen} 
         onClose={() => setIsCartOpen(false)} 
+      />
+
+      <FavoritesSidebar 
+        isOpen={isFavoritesOpen}
+        onClose={() => setIsFavoritesOpen(false)}
+        favorites={favorites}
+        products={allProducts}
+        onRemoveFavorite={removeFavorite}
+        onAddToCart={handleAddToCartFromFavorites}
+      />
+
+      <LoginModal 
+        isOpen={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
+        onLogin={handleLogin}
       />
     </>
   );

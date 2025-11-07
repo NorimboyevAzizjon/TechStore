@@ -1,5 +1,5 @@
-import React from 'react';
-import { CartProvider } from './context/CartContext'; // named import
+import React, { useState } from 'react';
+import { CartProvider } from './context/CartContext';
 import Header from './components/Header/Header';
 import PromoBanner from './components/Banner/PromoBanner';
 import ProductList from './components/Product/ProductList';
@@ -7,13 +7,40 @@ import Footer from './components/Footer/Footer';
 import './App.css';
 
 function App() {
+  const [favorites, setFavorites] = useState(new Set());
+  const [allProducts, setAllProducts] = useState([]);
+
+  // Sevimlilarga qo'shish/o'chirish
+  const toggleFavorite = (productId) => {
+    const newFavorites = new Set(favorites);
+    if (newFavorites.has(productId)) {
+      newFavorites.delete(productId);
+    } else {
+      newFavorites.add(productId);
+    }
+    setFavorites(newFavorites);
+  };
+
+  // Mahsulotlarni olish (ProductList dan)
+  const handleProductsLoaded = (products) => {
+    setAllProducts(products);
+  };
+
   return (
     <CartProvider>
       <div className="App">
-        <Header />
+        <Header 
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+          allProducts={allProducts}
+        />
         <main>
           <PromoBanner />
-          <ProductList />
+          <ProductList 
+            onToggleFavorite={toggleFavorite}
+            favorites={favorites}
+            onProductsLoaded={handleProductsLoaded}
+          />
         </main>
         <Footer />
       </div>

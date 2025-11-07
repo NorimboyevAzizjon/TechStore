@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../hooks/useCart';
 import styles from './CartSidebar.module.css';
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
+  const [favorites, setFavorites] = useState(new Set());
 
   // Overlay bosilganda yopish
   const handleOverlayClick = (e) => {
@@ -12,13 +13,24 @@ const CartSidebar = ({ isOpen, onClose }) => {
     }
   };
 
+  // Sevimlilarga qo'shish/o'chirish
+  const toggleFavorite = (productId) => {
+    const newFavorites = new Set(favorites);
+    if (newFavorites.has(productId)) {
+      newFavorites.delete(productId);
+    } else {
+      newFavorites.add(productId);
+    }
+    setFavorites(newFavorites);
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className={styles.cartOverlay} onClick={handleOverlayClick}>
       <div className={styles.cartSidebar}>
         <div className={styles.cartHeader}>
-          <h2>Savat</h2>
+          <h2>Savat ({cart.items.reduce((total, item) => total + item.quantity, 0)})</h2>
           <button className={styles.closeBtn} onClick={onClose}>✕</button>
         </div>
 
@@ -29,13 +41,28 @@ const CartSidebar = ({ isOpen, onClose }) => {
             cart.items.map(item => (
               <div key={item.id} className={styles.cartItem}>
                 <img src={item.image} alt={item.name} className={styles.itemImage} />
+                
                 <div className={styles.itemInfo}>
                   <h4>{item.name}</h4>
-                  <p className={styles.itemPrice}>{item.price.toLocaleString()} so'm</p>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span className={styles.itemPrice}>{item.price.toLocaleString()} so'm</span>
+                    {item.originalPrice && item.originalPrice > item.price && (
+                      <span className={styles.discountBadge}>ARZON NARX KAFOLATI</span>
+                    )}
+                  </div>
+
+                  {item.originalPrice && item.originalPrice > item.price && (
+                    <div className={styles.monthlyInfo}>
+                      {(item.price / 12).toLocaleString('uz-UZ', { maximumFractionDigits: 0 })} so'm/oyiga
+                    </div>
+                  )}
+
                   <div className={styles.quantityControls}>
                     <button 
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       className={styles.quantityBtn}
+                      disabled={item.quantity <= 1}
                     >
                       -
                     </button>
@@ -48,6 +75,15 @@ const CartSidebar = ({ isOpen, onClose }) => {
                     </button>
                   </div>
                 </div>
+
+                <button 
+                  onClick={() => toggleFavorite(item.id)}
+                  className={`${styles.favoriteBtn} ${favorites.has(item.id) ? styles.active : ''}`}
+                  title="Sevimlilarga qo'shish"
+                >
+                  {favorites.has(item.id) ? '❤️' : '🤍'}
+                </button>
+
                 <button 
                   onClick={() => removeFromCart(item.id)}
                   className={styles.removeBtn}
@@ -63,7 +99,8 @@ const CartSidebar = ({ isOpen, onClose }) => {
         {cart.items.length > 0 && (
           <div className={styles.cartFooter}>
             <div className={styles.cartTotal}>
-              Jami: <strong>{getCartTotal().toLocaleString()} so'm</strong>
+              <span>Jami:</span>
+              <strong>{getCartTotal().toLocaleString()} so'm</strong>
             </div>
             <div className={styles.cartActions}>
               <button className={styles.clearBtn} onClick={clearCart}>

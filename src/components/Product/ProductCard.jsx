@@ -2,23 +2,36 @@ import React from 'react';
 import { useCart } from '../../hooks/useCart';
 import styles from './ProductCard.module.css';
 
-const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+const ProductCard = ({ product, onToggleFavorite, isFavorite }) => {
+  const { addToCart, cart, updateQuantity, removeFromCart } = useCart();
+
+  // Bu mahsulot savatda bormi?
+  const cartItem = cart.items.find(item => item.id === product.id);
+  const itemQuantity = cartItem ? cartItem.quantity : 0;
 
   const handleAddToCart = () => {
     addToCart(product);
   };
 
-  // Rating ni yulduzchalar bilan ko'rsatish
-  const renderRatingStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    
-    for (let i = 0; i < fullStars; i++) {
-      stars.push('⭐');
+  const handleIncrease = () => {
+    if (cartItem) {
+      updateQuantity(product.id, itemQuantity + 1);
+    } else {
+      addToCart(product);
     }
-    
-    return stars.join('');
+  };
+
+  const handleDecrease = () => {
+    if (itemQuantity > 1) {
+      updateQuantity(product.id, itemQuantity - 1);
+    } else if (itemQuantity === 1) {
+      removeFromCart(product.id);
+    }
+  };
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    onToggleFavorite(product.id);
   };
 
   return (
@@ -28,9 +41,13 @@ const ProductCard = ({ product }) => {
         {product.discount && (
           <span className={styles.discountBadge}>-{product.discount}%</span>
         )}
-        <div className={styles.ratingBadge}>
-          {renderRatingStars(product.rating)} {product.rating}
-        </div>
+        
+        <button 
+          onClick={handleFavoriteClick}
+          className={`${styles.favoriteBtn} ${isFavorite ? styles.active : ''}`}
+        >
+          {isFavorite ? '❤️' : '🤍'}
+        </button>
       </div>
       
       <div className={styles.productInfo}>
@@ -49,20 +66,31 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        <div className={styles.productRating}>
-          <span className={styles.rating}>
-            {renderRatingStars(product.rating)} {product.rating}
-          </span>
-          <span className={styles.reviews}>({product.reviews} ta)</span>
-        </div>
-
-        <button 
-          className={styles.addToCartBtn} 
-          onClick={handleAddToCart}
-          disabled={!product.inStock}
-        >
-          {product.inStock ? "Savatga qo'shish" : "Qolmagan"}
-        </button>
+        {itemQuantity > 0 ? (
+          <div className={styles.quantityControls}>
+            <button 
+              onClick={handleDecrease}
+              className={styles.quantityBtn}
+            >
+              -
+            </button>
+            <span className={styles.quantity}>{itemQuantity}</span>
+            <button 
+              onClick={handleIncrease}
+              className={styles.quantityBtn}
+            >
+              +
+            </button>
+          </div>
+        ) : (
+          <button 
+            className={styles.addToCartBtn} 
+            onClick={handleAddToCart}
+            disabled={!product.inStock}
+          >
+            {product.inStock ? "Savatga qo'shish" : "Qolmagan"}
+          </button>
+        )}
       </div>
     </div>
   );

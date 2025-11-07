@@ -1,4 +1,5 @@
 import { useReducer, useEffect } from 'react';
+import axios from 'axios';
 
 const initialState = {
     data: [],
@@ -27,12 +28,8 @@ export const useFetch = (url) => {
         const fetchData = async () => {
             dispatch({ type: 'LOADING', payload: true });
             try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP xatolik: ${response.status}`);
-                }
-                const data = await response.json();
-                dispatch({ type: 'DATA', payload: data.products });
+                const response = await axios.get(url);
+                dispatch({ type: 'DATA', payload: response.data.products });
             } catch (err) {
                 dispatch({ type: 'ERROR', payload: err.message || "Xatolik yuz berdi" });
             } finally {
