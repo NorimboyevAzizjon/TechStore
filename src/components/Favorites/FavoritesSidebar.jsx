@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './FavoritesSidebar.module.css';
 
 const FavoritesSidebar = ({ isOpen, onClose, favorites, products, onRemoveFavorite, onAddToCart }) => {
-  // Overlay bosilganda yopish
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -11,7 +10,6 @@ const FavoritesSidebar = ({ isOpen, onClose, favorites, products, onRemoveFavori
 
   if (!isOpen) return null;
 
-  // Sevimli mahsulotlarni topamiz
   const favoriteProducts = products.filter(product => favorites.has(product.id));
 
   return (

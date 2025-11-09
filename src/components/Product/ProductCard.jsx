@@ -5,7 +5,6 @@ import styles from './ProductCard.module.css';
 const ProductCard = ({ product, onToggleFavorite, isFavorite }) => {
   const { addToCart, cart, updateQuantity, removeFromCart } = useCart();
 
-  // Bu mahsulot savatda bormi?
   const cartItem = cart.items.find(item => item.id === product.id);
   const itemQuantity = cartItem ? cartItem.quantity : 0;
 

@@ -64,8 +64,8 @@
 }
 
 .closeBtn:hover {
-  background: #F5F0FF; /* Purple background */
-  color: #7A3CF9; /* Purple */
+  background: #F5F0FF; 
+  color: #7A3CF9; 
 }
 
 .favoritesItems {
@@ -87,7 +87,7 @@
 .emptyHeart {
   font-size: 48px;
   opacity: 0.5;
-  color: #7A3CF9; /* Purple */
+  color: #7A3CF9; 
 }
 
 .emptyFavorites p {
@@ -148,7 +148,7 @@
 }
 
 .currentPrice {
-  color: #7A3CF9; /* Purple */
+  color: #7A3CF9; 
   font-weight: 600;
   font-size: 16px;
 }
@@ -161,13 +161,13 @@
 
 .monthlyInfo {
   font-size: 12px;
-  color: #00A046; /* Green */
+  color: #00A046; 
   font-weight: 500;
 }
 
 .addToCartBtn {
   padding: 8px 16px;
-  background: #7A3CF9; /* Purple */
+  background: #7A3CF9;
   color: white;
   border: none;
   border-radius: 6px;
@@ -180,7 +180,7 @@
 }
 
 .addToCartBtn:hover {
-  background: #6A2CE0; /* Dark purple */
+  background: #6A2CE0; 
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(122, 60, 249, 0.3);
 }
@@ -200,11 +200,10 @@
 
 .removeBtn:hover {
   opacity: 1;
-  background: #F5F0FF; /* Purple background */
-  color: #7A3CF9; /* Purple */
+  background: #F5F0FF; 
+  color: #7A3CF9; 
 }
 
-/* Item actions container */
 .itemActions {
   display: flex;
   gap: 8px;
@@ -212,7 +211,6 @@
   align-items: center;
 }
 
-/* Move to cart animation */
 .moveToCart {
   animation: moveToCartAnimation 0.5s ease;
 }
@@ -232,7 +230,6 @@
   }
 }
 
-/* Success message */
 .successMessage {
   background: #F0F9FF;
   border: 1px solid rgba(122, 60, 249, 0.2);
@@ -240,48 +237,16 @@
   padding: 8px 12px;
   margin: 8px 0;
   font-size: 12px;
-  color: #7A3CF9; /* Purple */
+  color: #7A3CF9; 
   text-align: center;
 }
 
-/* Favorites counter */
 .favoritesCount {
-  background: #7A3CF9; /* Purple */
+  background: #7A3CF9; 
   color: white;
   border-radius: 12px;
   padding: 2px 8px;
   font-size: 12px;
   font-weight: 600;
   margin-left: 8px;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .favoritesSidebar {
-    width: 100%;
-  }
-  
-  .favoriteItem {
-    padding: 12px 16px;
-  }
-  
-  .itemImage {
-    width: 70px;
-    height: 70px;
-  }
-  
-  .favoritesHeader {
-    padding: 16px 20px;
-  }
-  
-  .itemActions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-  
-  .addToCartBtn {
-    width: 100%;
-    text-align: center;
-  }
 }

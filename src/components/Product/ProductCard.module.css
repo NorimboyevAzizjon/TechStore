@@ -13,7 +13,7 @@
 .productCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(122, 60, 249, 0.12);
-  border-color: #7A3CF9; /* Purple */
+  border-color: #7A3CF9; 
 }
 
 .productImage {
@@ -38,7 +38,7 @@
   position: absolute;
   top: 8px;
   left: 8px;
-  background: #7A3CF9; /* Purple */
+  background: #7A3CF9; 
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -46,7 +46,6 @@
   font-weight: bold;
 }
 
-/* YURAKCHA TUGMASI */
 .favoriteBtn {
   position: absolute;
   top: 8px;
@@ -66,23 +65,21 @@
 }
 
 .favoriteBtn:hover {
-  background: #F5F0FF; /* Purple background */
-  border-color: #7A3CF9; /* Purple */
+  background: #F5F0FF;
+  border-color: #7A3CF9; 
   transform: scale(1.1);
 }
 
-/* OQ YURAKCHA (bosilmagan) */
 .favoriteBtn:not(.favoriteActive) {
   color: #666;
   background: white;
   border-color: #E5E5E5;
 }
 
-/* QIZIL YURAKCHA (bosilgan) - Endi Purple */
 .favoriteActive {
-  color: #7A3CF9; /* Purple */
-  background: #F5F0FF; /* Purple background */
-  border-color: #7A3CF9; /* Purple */
+  color: #7A3CF9;
+  background: #F5F0FF;
+  border-color: #7A3CF9; 
   transform: scale(1.1);
 }
 
@@ -116,7 +113,7 @@
 .currentPrice {
   font-size: 18px;
   font-weight: bold;
-  color: #7A3CF9; /* Purple */
+  color: #7A3CF9; 
 }
 
 .originalPrice {
@@ -127,12 +124,11 @@
 
 .monthlyPayment {
   font-size: 12px;
-  color: #00A046; /* Green (sotib olish uchun yaxshi) */
+  color: #00A046; 
   margin-bottom: 12px;
   font-weight: 500;
 }
 
-/* +/- BUTTONLAR */
 .quantityControls {
   display: flex;
   align-items: center;
@@ -157,9 +153,9 @@
 }
 
 .quantityBtn:hover {
-  border-color: #7A3CF9; /* Purple */
-  color: #7A3CF9; /* Purple */
-  background: #F5F0FF; /* Purple background */
+  border-color: #7A3CF9;
+  color: #7A3CF9; 
+  background: #F5F0FF; 
 }
 
 .quantity {
@@ -173,7 +169,7 @@
 .addToCartBtn {
   width: 100%;
   padding: 12px;
-  background: #7A3CF9; /* Purple */
+  background: #7A3CF9; 
   color: white;
   border: none;
   border-radius: 8px;
@@ -185,7 +181,7 @@
 }
 
 .addToCartBtn:hover {
-  background: #6A2CE0; /* Dark purple */
+  background: #6A2CE0; 
 }
 
 .addToCartBtn:active {
@@ -195,41 +191,4 @@
 .addToCartBtn:disabled {
   background: #666666;
   cursor: not-allowed;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .productCard {
-    padding: 12px;
-  }
-  
-  .productImage {
-    height: 140px;
-  }
-  
-  .productName {
-    font-size: 13px;
-    height: 36px;
-  }
-  
-  .currentPrice {
-    font-size: 16px;
-  }
-  
-  .addToCartBtn {
-    padding: 10px;
-    font-size: 13px;
-  }
-  
-  .quantityBtn {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-  }
-  
-  .favoriteBtn {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-  }
 }

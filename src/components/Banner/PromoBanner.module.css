@@ -103,29 +103,3 @@
   font-size: 12px;
   font-weight: bold;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .bannerContent {
-    flex-direction: column;
-    text-align: center;
-    gap: 20px;
-  }
-  
-  .bannerText h1 {
-    font-size: 24px;
-  }
-  
-  .bannerText h2 {
-    font-size: 14px;
-  }
-  
-  .currentPrice {
-    font-size: 20px;
-  }
-  
-  .productImagePlaceholder {
-    width: 140px;
-    height: 140px;
-  }
-} 

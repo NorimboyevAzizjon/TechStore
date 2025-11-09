@@ -6,14 +6,12 @@ const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
   const [favorites, setFavorites] = useState(new Set());
 
-  // Overlay bosilganda yopish
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
-  // Sevimlilarga qo'shish/o'chirish
   const toggleFavorite = (productId) => {
     const newFavorites = new Set(favorites);
     if (newFavorites.has(productId)) {

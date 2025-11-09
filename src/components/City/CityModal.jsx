@@ -5,7 +5,6 @@ const CityModal = ({ isOpen, onClose, onCitySelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCity, setSelectedCity] = useState('Toshkent');
 
-  // Shaharlar ro'yxati
   const cities = [
     'Toshkent',
     'Abdukarim',
@@ -16,27 +15,25 @@ const CityModal = ({ isOpen, onClose, onCitySelect }) => {
     'Andijon',
     'Angor',
     'Angren',
-    // ... qolgan shaharlar
+  
   ];
 
-  // Overlay bosilganda yopish
+  
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
-  // Modal content bosilganda to'xtatamiz
+  
   const handleModalClick = (e) => {
     e.stopPropagation();
   };
 
-  // Shahar qidirish
+  
   const filteredCities = cities.filter(city =>
     city.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Shahar tanlash
   const handleCitySelect = (city) => {
     setSelectedCity(city);
     onCitySelect(city);
@@ -56,7 +53,6 @@ const CityModal = ({ isOpen, onClose, onCitySelect }) => {
         </div>
 
         <div className={styles.modalBody}>
-          {/* Qidiruv qismi */}
           <div className={styles.searchSection}>
             <div className={styles.searchInputWrapper}>
               <input
@@ -69,8 +65,6 @@ const CityModal = ({ isOpen, onClose, onCitySelect }) => {
               <i className="fas fa-search"></i>
             </div>
           </div>
-
-          {/* Shaharlar ro'yxati */}
           <div className={styles.citiesList}>
             {filteredCities.length === 0 ? (
               <div className={styles.noResults}>
@@ -92,8 +86,6 @@ const CityModal = ({ isOpen, onClose, onCitySelect }) => {
               ))
             )}
           </div>
-
-          {/* Tanlangan shahar */}
           <div className={styles.selectedCity}>
             <i className="fas fa-map-marker-alt"></i>
             Tanlangan shahar: <strong>{selectedCity}</strong>
