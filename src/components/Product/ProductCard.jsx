@@ -1,49 +1,39 @@
 import React from 'react';
-import { useCart } from '../../hooks/useCart';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ product, onToggleFavorite, isFavorite }) => {
-  const { addToCart, cart, updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
-  const cartItem = cart.items.find(item => item.id === product.id);
-  const itemQuantity = cartItem ? cartItem.quantity : 0;
+  const handleProductClick = () => {
+    navigate(`/product/${product.id}`);
+  };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
     addToCart(product);
-  };
-
-  const handleIncrease = () => {
-    if (cartItem) {
-      updateQuantity(product.id, itemQuantity + 1);
-    } else {
-      addToCart(product);
-    }
-  };
-
-  const handleDecrease = () => {
-    if (itemQuantity > 1) {
-      updateQuantity(product.id, itemQuantity - 1);
-    } else if (itemQuantity === 1) {
-      removeFromCart(product.id);
-    }
+    // Notification: "Mahsulot savatga qo'shildi"
   };
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    onToggleFavorite(product.id);
+    onToggleFavorite && onToggleFavorite(product.id);
   };
 
   return (
-    <div className={styles.productCard}>
-      <div className={styles.productImage}>
-        <img src={product.image} alt={product.name} />
+    <div className={styles.productCard} onClick={handleProductClick}>
+      <div className={styles.imageContainer}>
+        <img src={product.image} alt={product.name} className={styles.productImage} />
         {product.discount && (
-          <span className={styles.discountBadge}>-{product.discount}%</span>
+          <div className={styles.discountBadge}>-{product.discount}%</div>
         )}
         
+        {/* Favorite button */}
         <button 
-          onClick={handleFavoriteClick}
           className={`${styles.favoriteBtn} ${isFavorite ? styles.favoriteActive : ''}`}
+          onClick={handleFavoriteClick}
         >
           <i className={`fas ${isFavorite ? 'fa-heart' : 'fa-heart'}`}></i>
         </button>
@@ -51,46 +41,30 @@ const ProductCard = ({ product, onToggleFavorite, isFavorite }) => {
       
       <div className={styles.productInfo}>
         <h3 className={styles.productName}>{product.name}</h3>
+        <p className={styles.brand}>{product.brand}</p>
         
-        <div className={styles.productPricing}>
+        <div className={styles.rating}>
+          <span className={styles.stars}>★★★★★</span>
+          <span className={styles.ratingCount}>({product.reviews})</span>
+        </div>
+
+        <div className={styles.prices}>
           <span className={styles.currentPrice}>{product.price.toLocaleString()} so'm</span>
-          {product.originalPrice && product.originalPrice > product.price && (
+          {product.originalPrice && (
             <span className={styles.originalPrice}>{product.originalPrice.toLocaleString()} so'm</span>
           )}
         </div>
 
-        {product.originalPrice && product.originalPrice > product.price && (
-          <div className={styles.monthlyPayment}>
-            {(product.price / 12).toLocaleString('uz-UZ', { maximumFractionDigits: 0 })} so'm/oyiga
-          </div>
-        )}
+        <div className={styles.monthlyPayment}>
+          {product.monthlyPrice} so'm/oyiga
+        </div>
 
-        {itemQuantity > 0 ? (
-          <div className={styles.quantityControls}>
-            <button 
-              onClick={handleDecrease}
-              className={styles.quantityBtn}
-            >
-              <i className="fas fa-minus"></i>
-            </button>
-            <span className={styles.quantity}>{itemQuantity}</span>
-            <button 
-              onClick={handleIncrease}
-              className={styles.quantityBtn}
-            >
-              <i className="fas fa-plus"></i>
-            </button>
-          </div>
-        ) : (
-          <button 
-            className={styles.addToCartBtn} 
-            onClick={handleAddToCart}
-            disabled={!product.inStock}
-          >
-            <i className="fas fa-shopping-cart"></i>
-            {product.inStock ? "Savatga qo'shish" : "Qolmagan"}
-          </button>
-        )}
+        <button 
+          className={styles.addToCartBtn}
+          onClick={handleAddToCart}
+        >
+          Savatga qo'shish
+        </button>
       </div>
     </div>
   );

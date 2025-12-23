@@ -1,21 +1,45 @@
 .promoBanner {
-  
   color: white;
   padding: 30px 20px;
   margin: 0;
   border-radius: 0;
+  position: relative;
 }
 
-.bannerContent {
+.carouselContainer {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.carousel {
+  display: flex;
+  width: 100%;
+  height: 400px; 
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+  padding: 0 40px;
 }
 
-.bannerText {
+.slide.active {
+  opacity: 1;
+}
+.bannerContent {
   flex: 1;
 }
 
@@ -48,7 +72,7 @@
 
 .discount {
   background: #ffffff;
-  color: var(--uzum-red);
+  color: var(--uzum-red, #ff4444);
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: bold;
@@ -78,17 +102,11 @@
   text-align: center;
 }
 
-.productImagePlaceholder {
+.carouselImage {
   width: 180px;
   height: 180px;
-  
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: bold;
-  
+  object-fit: cover;
   position: relative;
 }
 
@@ -102,4 +120,65 @@
   border-radius: 12px;
   font-size: 12px;
   font-weight: bold;
+}
+
+.prevButton,
+.nextButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 15px 10px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 10;
+  transition: background 0.3s ease;
+  border-radius: 4px;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.prevButton {
+  left: 10px;
+}
+
+.nextButton {
+  right: 10px;
+}
+
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.indicator.active {
+  background: white;
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+.carouselImage {
+  width: 100%;
+  height: auto;
 }

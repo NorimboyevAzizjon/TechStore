@@ -21,15 +21,14 @@ const Header = ({ favorites, onToggleFavorite, allProducts }) => {
   const { addToCart } = useCart();
   const { user, login, logout, isAuthenticated } = useAuth();
 
-  // Til o'zgartirish funksiyasi
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
 
-  // Link bosilganda active holatini o'zgartirish
-  const handleLinkClick = (path) => {
-    setActiveLink(path);
-  };
+
+  // const handleLinkClick = (path) => {
+  //   setActiveLink(path);
+  // };
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
@@ -55,7 +54,6 @@ const Header = ({ favorites, onToggleFavorite, allProducts }) => {
     logout();
   };
 
-  // Oddiy Link komponenti
   const Link = ({ to, children, className, onClick }) => (
     <a 
       href={to} 
@@ -132,8 +130,6 @@ const Header = ({ favorites, onToggleFavorite, allProducts }) => {
             </option>
           </select>
         </div>
-
-        {/* Main navigation */}
         <div className={styles.mainNav}>
           <Link to="/" className={styles.logo}>
             <i className="fas fa-shopping-bag"></i>
@@ -194,7 +190,6 @@ const Header = ({ favorites, onToggleFavorite, allProducts }) => {
           </div>
         </div>
 
-        {/* Categories */}
         <nav className={styles.categories}>
           <Link 
             to="/weekly" 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useCart } from '../../hooks/useCart';
-import styles from './CartSidebar.module.css';
+import { useCart } from '../../context/CartContext';
+import styles from './CartIcon.module.css';
 
 const CartIcon = () => {
   const { getCartItemsCount } = useCart();
@@ -10,7 +10,9 @@ const CartIcon = () => {
     <div className={styles.cartIcon}>
       <i className="fas fa-shopping-cart"></i>
       {itemCount > 0 && (
-        <span className={styles.cartBadge}>{itemCount}</span>
+        <span className={styles.cartBadge}>
+          {itemCount > 99 ? '99+' : itemCount}
+        </span>
       )}
     </div>
   );

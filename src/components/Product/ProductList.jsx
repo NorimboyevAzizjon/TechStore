@@ -6,8 +6,6 @@ import styles from './ProductList.module.css';
 const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
   const { data: products, isLoading, error } = useFetch('https://dummyjson.com/products');
 
-  
-
   const formattedProducts = products?.map(product => ({
     id: product.id,
     name: product.title,
@@ -19,16 +17,18 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
     rating: product.rating,
     reviews: product.stock,
     description: product.description,
-    inStock: product.stock > 0
+    inStock: product.stock > 0,
+    brand: product.brand || product.category,
+    monthlyPrice: Math.round((product.price * 13000) / 12).toLocaleString()
   })) || [];
 
-  
   useEffect(() => {
-    if (formattedProducts.length > 0) {
+    if (formattedProducts.length > 0 && onProductsLoaded) {
       onProductsLoaded(formattedProducts);
     }
   }, [formattedProducts, onProductsLoaded]);
 
+  // Kategoriyalar bo'yicha filtrlash
   const smartphones = formattedProducts.filter(p => p.category === "smartphones");
   const laptops = formattedProducts.filter(p => p.category === "laptops");
   const fragrances = formattedProducts.filter(p => p.category === "fragrances");
@@ -55,8 +55,14 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
       <div className={styles.productList}>
         <div className={styles.container}>
           <div className={styles.error}>
-            Xatolik {error}
+            Xatolik: {error}
             <br />
+            <button 
+              onClick={() => window.location.reload()} 
+              className={styles.retryBtn}
+            >
+              Qayta urinish
+            </button>
           </div>
         </div>
       </div>
@@ -67,6 +73,7 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
     <div className={styles.productList}>
       <div className={styles.container}>
         
+        {/* Barcha mahsulotlar */}
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Barcha mahsulotlar</h2>
           <span className={styles.productCount}>({formattedProducts.length} mahsulot)</span>
@@ -78,21 +85,25 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
               key={product.id} 
               product={product}
               onToggleFavorite={onToggleFavorite}
-              isFavorite={favorites.has(product.id)}
+              isFavorite={favorites?.has(product.id)}
             />
           ))}
         </div>
 
+        {/* Kategoriyalar bo'yicha */}
         {smartphones.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}>Smartfonlar va gadjetlar</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Smartfonlar va gadjetlar</h3>
+              <span className={styles.productCount}>({smartphones.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {smartphones.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>
@@ -101,14 +112,17 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
 
         {laptops.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}>Noutbuklar va kompyuterlar</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Noutbuklar va kompyuterlar</h3>
+              <span className={styles.productCount}>({laptops.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {laptops.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>
@@ -117,14 +131,17 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
 
         {skincare.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}>Go'zallik va parvarish</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Go'zallik va parvarish</h3>
+              <span className={styles.productCount}>({skincare.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {skincare.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>
@@ -133,14 +150,17 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
 
         {fragrances.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}>Atirlar</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Atirlar</h3>
+              <span className={styles.productCount}>({fragrances.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {fragrances.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>
@@ -149,14 +169,17 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
 
         {homeDecoration.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}>Uy-ro'zg'or buyumlari</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Uy-ro'zg'or buyumlari</h3>
+              <span className={styles.productCount}>({homeDecoration.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {homeDecoration.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>
@@ -165,14 +188,17 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
 
         {groceries.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}>Oziq-ovqat mahsulotlari</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Oziq-ovqat mahsulotlari</h3>
+              <span className={styles.productCount}>({groceries.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {groceries.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>
@@ -181,14 +207,17 @@ const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
 
         {furniture.length > 0 && (
           <div className={styles.categorySection}>
-            <h3 className={styles.categoryTitle}> Mebel</h3>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.categoryTitle}>Mebel</h3>
+              <span className={styles.productCount}>({furniture.length} mahsulot)</span>
+            </div>
             <div className={styles.productsGrid}>
               {furniture.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product}
                   onToggleFavorite={onToggleFavorite}
-                  isFavorite={favorites.has(product.id)}
+                  isFavorite={favorites?.has(product.id)}
                 />
               ))}
             </div>

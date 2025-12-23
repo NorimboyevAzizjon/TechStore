@@ -1,9 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// Context ni export qilish
 export const AuthContext = createContext();
 
-// Custom hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -12,13 +10,11 @@ export const useAuth = () => {
   return context;
 };
 
-// Provider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on app start
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -26,14 +22,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (phoneNumber) => { // password parametri olib tashlandi
+  const login = async (phoneNumber) => {
     try {
       setLoading(true);
       
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock user data
+
       const userData = {
         id: 1,
         phoneNumber,
@@ -57,7 +51,6 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const newUser = {
@@ -105,5 +98,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Faqat bitta default export qilish
 export default AuthContext;
