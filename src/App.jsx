@@ -13,7 +13,6 @@ import LoginPage from './pages/LoginPage';
 import SuccessPage from './pages/SuccessPage';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-// import './i18next'; // BU QATORNI O'CHIRING YO COMMENT QILING
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -22,7 +21,7 @@ function PrivateRoute({ children }) {
 
 function App() {
   const [favorites, setFavorites] = useState(new Set());
-  const [allProducts, setAllProducts] = useState([]);
+  const [allProducts] = useState([]);
 
   const toggleFavorite = (productId) => {
     setFavorites(prev => {
@@ -36,9 +35,8 @@ function App() {
     });
   };
 
-  const handleProductsLoaded = (products) => {
-    setAllProducts(products);
-  };
+
+  const isLoggedIn = true; // yoki contextdan oling
 
   return (
     <AuthProvider>
@@ -56,11 +54,7 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/success" element={<SuccessPage />} />
-              <Route path="/admin" element={
-                <PrivateRoute>
-                  <AdminDashboard />
-                </PrivateRoute>
-              } />
+              <Route path="/admin" element={<AdminDashboard isLoggedIn={isLoggedIn} />} />
               <Route path="*" element={<HomePage />} />
             </Routes>
           </main>
