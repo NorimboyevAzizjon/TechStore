@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 
 export const AuthContext = createContext();
 
@@ -15,64 +16,56 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    // Check Supabase session on mount
+    const session = supabase.auth.getSession ? null : supabase.auth.session?.();
+    if (session && session.user) {
+      setUser(session.user);
+    } else {
+      supabase.auth.getUser && supabase.auth.getUser().then(({ data }) => {
+        if (data?.user) setUser(data.user);
+      });
     }
     setLoading(false);
   }, []);
 
-  const login = async (phoneNumber) => {
+  // Supabase login with email/phone and password
+  const login = async (email, password) => {
     try {
       setLoading(true);
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const userData = {
-        id: 1,
-        phoneNumber,
-        name: 'Foydalanuvchi',
-        email: `${phoneNumber}@uzum.uz`,
-        createdAt: new Date().toISOString()
-      };
-      
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      
-      return { success: true, user: userData };
-    } catch {
-      return { success: false, error: 'Login failed' };
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      if (error) return { success: false, error: error.message };
+      setUser(data.user);
+      return { success: true, user: data.user };
+    } catch (err) {
+      return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (userData) => {
+  const register = async ({ email, password }) => {
     try {
       setLoading(true);
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const newUser = {
-        id: Date.now(),
-        ...userData,
-        createdAt: new Date().toISOString()
-      };
-      
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
-      
-      return { success: true, user: newUser };
-    } catch {
-      return { success: false, error: 'Registration failed' };
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password
+      });
+      if (error) return { success: false, error: error.message };
+      setUser(data.user);
+      return { success: true, user: data.user };
+    } catch (err) {
+      return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('user');
   };
 
   const updateProfile = (updatedData) => {

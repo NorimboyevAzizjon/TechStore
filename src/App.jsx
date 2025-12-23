@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header/Header';
 import PromoBanner from './components/Banner/PromoBanner';
 import ProductList from './components/Product/ProductList';
 import Footer from './components/Footer/Footer';
+import AdminDashboard from './pages/AdminDashboard';
+import HomePage from './pages/HomePage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 // import './i18next'; // BU QATORNI O'CHIRING YO COMMENT QILING
+
+function PrivateRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/" replace />;
+}
 
 function App() {
   const [favorites, setFavorites] = useState(new Set());
@@ -38,12 +47,17 @@ function App() {
             allProducts={allProducts}
           />
           <main className="main-content">
-            <PromoBanner />
-            <ProductList 
-              onToggleFavorite={toggleFavorite}
-              favorites={favorites}
-              onProductsLoaded={handleProductsLoaded}
-            />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/product/:id" element={<ProductDetailPage />} />
+              <Route path="/admin" element={
+                <PrivateRoute>
+                  <AdminDashboard />
+                </PrivateRoute>
+              } />
+              {/* Add purchase route protection here if needed */}
+              <Route path="*" element={<HomePage />} />
+            </Routes>
           </main>
           <Footer />
         </div>
