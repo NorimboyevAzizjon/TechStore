@@ -1,25 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
-import { useFetch } from '../../hooks/useFetch';
+import { supabase } from '../../supabaseClient';
 import styles from './ProductList.module.css';
 
 const ProductList = ({ onToggleFavorite, favorites, onProductsLoaded }) => {
-  const { data: products, isLoading, error } = useFetch('https://dummyjson.com/products');
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      const { data, error } = await supabase.from('products').select('*');
+      if (error) setError(error.message);
+      else setProducts(data || []);
+      setIsLoading(false);
+    };
+    fetchProducts();
+  }, []);
 
   const formattedProducts = products?.map(product => ({
     id: product.id,
-    name: product.title,
-    price: Math.round(product.price * 13000), 
-    originalPrice: Math.round(product.price * 13000 * 1.2), 
-    discount: 20,
-    image: product.thumbnail,
+    name: product.name || product.title,
+    price: product.price,
+    originalPrice: product.original_price || product.price,
+    discount: product.discount || 0,
+    image: product.image || product.thumbnail,
     category: product.category,
     rating: product.rating,
-    reviews: product.stock,
+    reviews: product.reviews,
     description: product.description,
-    inStock: product.stock > 0,
+    inStock: product.in_stock ?? true,
     brand: product.brand || product.category,
-    monthlyPrice: Math.round((product.price * 13000) / 12).toLocaleString()
+    monthlyPrice: product.price ? Math.round(product.price / 12).toLocaleString() : ''
   })) || [];
 
   useEffect(() => {
