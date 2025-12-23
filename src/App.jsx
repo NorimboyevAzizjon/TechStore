@@ -8,6 +8,9 @@ import Footer from './components/Footer/Footer';
 import AdminDashboard from './pages/AdminDashboard';
 import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import CartPage from './components/Cart/CartPage';
+import LoginPage from './pages/LoginPage';
+import SuccessPage from './pages/SuccessPage';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 // import './i18next'; // BU QATORNI O'CHIRING YO COMMENT QILING
@@ -50,12 +53,14 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/success" element={<SuccessPage />} />
               <Route path="/admin" element={
                 <PrivateRoute>
                   <AdminDashboard />
                 </PrivateRoute>
               } />
-              {/* Add purchase route protection here if needed */}
               <Route path="*" element={<HomePage />} />
             </Routes>
           </main>

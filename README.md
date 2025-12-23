@@ -24,3 +24,4 @@ React + Vite bilan qurilgan Uzum market veb-saytining to'liq kloni.
 ```bash
 npm install
 npm run dev
+```
