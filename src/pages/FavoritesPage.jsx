@@ -3,7 +3,7 @@ import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { useFavorites } from '../context/FavoritesContext'
 import { useCart } from '../context/CartContext'
-import { Heart, ShoppingCart, Trash2, ArrowLeft } from 'lucide-react'
+import { Heart, ShoppingCart, Trash2, ArrowLeft, Sparkles } from 'lucide-react'
 
 const FavoritesPage = () => {
   const navigate = useNavigate()
@@ -17,86 +17,102 @@ const FavoritesPage = () => {
 
   if (favorites.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <Heart className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-        <h2 className="text-2xl font-bold mb-2">Sevimlilar bo'sh</h2>
-        <p className="text-muted-foreground mb-6">
-          Sevimli mahsulotlarni qo'shish uchun yurakchani bosing
-        </p>
-        <Button onClick={() => navigate('/')}>
-          Mahsulotlarni ko'rish
-        </Button>
+      <div className="min-h-[60vh] flex items-center justify-center p-4">
+        <div className="text-center fade-in">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-red-100 to-pink-100 flex items-center justify-center">
+            <Heart className="h-12 w-12 text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Sevimlilar bo'sh</h2>
+          <p className="text-muted-foreground mb-8 max-w-sm">
+            Mahsulotlardagi ❤️ tugmasini bosib sevimlilaringizga qo'shing
+          </p>
+          <Button 
+            onClick={() => navigate('/')}
+            className="rounded-full px-8 bg-gradient-to-r from-red-500 to-pink-500 hover:shadow-lg hover:shadow-red-200 transition-all"
+          >
+            <Sparkles className="mr-2 h-4 w-4" />
+            Mahsulotlarni ko'rish
+          </Button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Button 
-        variant="ghost" 
-        className="mb-6"
-        onClick={() => navigate(-1)}
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Ortga
-      </Button>
+    <div className="min-h-screen bg-gradient-to-b from-red-50/30 to-white py-8">
+      <div className="container mx-auto px-4">
+        <Button 
+          variant="ghost" 
+          className="mb-6 rounded-full"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Ortga
+        </Button>
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold flex items-center gap-3">
-          <Heart className="h-8 w-8 text-red-500 fill-red-500" />
-          Sevimlilar
-        </h1>
-        <p className="text-muted-foreground">
-          {favorites.length} ta mahsulot
-        </p>
-      </div>
+        <div className="mb-8 fade-in">
+          <h1 className="text-3xl font-bold flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-red-500 to-pink-500 text-white">
+              <Heart className="h-6 w-6 fill-white" />
+            </div>
+            Sevimlilar
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            {favorites.length} ta mahsulot saqlangan
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {favorites.map(product => (
-          <Card key={product.id} className="p-4">
-            <div className="flex gap-4">
-              <img
-                src={product.image_url || 'https://via.placeholder.com/100x100'}
-                alt={product.name}
-                className="w-24 h-24 object-cover rounded-md cursor-pointer"
-                onClick={() => navigate(`/product/${product.id}`)}
-              />
-              
-              <div className="flex-1">
-                <h3 
-                  className="font-semibold text-lg mb-1 cursor-pointer hover:text-primary"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {favorites.map((product, index) => (
+            <Card key={product.id} className="p-5 border-0 shadow-sm bg-white rounded-2xl hover:shadow-lg transition-all fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div className="flex gap-4">
+                <div 
+                  className="w-24 h-24 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 cursor-pointer"
                   onClick={() => navigate(`/product/${product.id}`)}
                 >
-                  {product.name}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-2 line-clamp-2">
-                  {product.description}
-                </p>
-                <p className="font-bold text-lg">
-                  {Number(product.price).toLocaleString('uz-UZ')} so'm
-                </p>
+                  <img
+                    src={product.image_url || 'https://via.placeholder.com/100x100'}
+                    alt={product.name}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <h3 
+                    className="font-semibold text-lg mb-1 cursor-pointer hover:text-primary transition-colors truncate"
+                    onClick={() => navigate(`/product/${product.id}`)}
+                  >
+                    {product.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-2 line-clamp-2">
+                    {product.description}
+                  </p>
+                  <p className="font-bold text-lg gradient-text">
+                    {Number(product.price).toLocaleString('uz-UZ')} so'm
+                  </p>
+                </div>
               </div>
-            </div>
-            
-            <div className="flex gap-2 mt-4">
-              <Button 
-                className="flex-1"
-                onClick={() => handleAddToCart(product)}
-              >
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                Savatchaga
-              </Button>
-              <Button 
-                variant="outline" 
-                size="icon"
-                onClick={() => removeFromFavorites(product.id)}
-                className="text-red-500 hover:text-red-700"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          </Card>
-        ))}
+              
+              <div className="flex gap-2 mt-4">
+                <Button 
+                  className="flex-1 rounded-xl bg-gradient-to-r from-primary to-purple-600 hover:shadow-lg hover:shadow-primary/25 transition-all"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Savatchaga
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon"
+                  onClick={() => removeFromFavorites(product.id)}
+                  className="rounded-xl text-red-500 hover:text-red-700 hover:bg-red-50 border-red-200"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   )

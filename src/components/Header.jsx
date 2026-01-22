@@ -1,44 +1,84 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
+import { Input } from './ui/input'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { useFavorites } from '../context/FavoritesContext'
-import { ShoppingCart, User, LogOut, Package, Heart } from 'lucide-react'
+import { ShoppingCart, User, LogOut, Store, Heart, Menu, X, Sparkles, Search } from 'lucide-react'
+import { useState } from 'react'
 
 const Header = () => {
   const { user, logout, isAdmin } = useAuth()
   const { getTotalItems } = useCart()
   const { getFavoritesCount } = useFavorites()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const navigate = useNavigate()
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`)
+      setSearchQuery('')
+    }
+  }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-            <Package className="h-6 w-6" />
-            TechStore
+    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-lg supports-[backdrop-filter]:bg-white/60 shadow-sm">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 gap-4">
+        {/* Logo */}
+        <div className="flex items-center gap-4 flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 text-xl font-bold group">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-purple-600 text-white group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-300">
+              <Store className="h-5 w-5" />
+            </div>
+            <span className="gradient-text hidden lg:inline">TechStore</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">
+        </div>
+        
+        {/* Search Bar - Markazda */}
+        <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl mx-4">
+          <div className="relative w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Mahsulot qidirish..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-24 h-10 rounded-full border-gray-200 focus:border-primary focus:ring-primary bg-gray-50"
+            />
+            <Button 
+              type="submit" 
+              size="sm"
+              className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full px-4 h-8 bg-gradient-to-r from-primary to-purple-600"
+            >
+              Qidirish
+            </Button>
+          </div>
+        </form>
+
+        {/* Right side */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1 mr-2">
+            <Link to="/" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent transition-colors">
               Bosh Sahifa
             </Link>
             {isAdmin && (
-              <Link to="/admin" className="text-sm font-medium hover:text-primary transition-colors">
+              <Link to="/admin" className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent transition-colors flex items-center gap-1">
+                <Sparkles className="h-3 w-3" />
                 Admin
               </Link>
             )}
           </nav>
-        </div>
-
-        <div className="flex items-center gap-3">
+          
           {/* Sevimlilar */}
-          <Link to="/favorites" className="relative">
-            <Button variant="outline" size="icon">
-              <Heart className="h-4 w-4" />
+          <Link to="/favorites" className="relative group">
+            <Button variant="ghost" size="icon" className="rounded-full hover:bg-red-50 hover:text-red-500 transition-colors">
+              <Heart className="h-5 w-5" />
               {getFavoritesCount() > 0 && (
                 <Badge 
-                  className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500"
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500 border-2 border-white pulse-badge"
                 >
                   {getFavoritesCount()}
                 </Badge>
@@ -47,13 +87,12 @@ const Header = () => {
           </Link>
           
           {/* Savatcha */}
-          <Link to="/cart" className="relative">
-            <Button variant="outline" size="icon">
-              <ShoppingCart className="h-4 w-4" />
+          <Link to="/cart" className="relative group">
+            <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/10 hover:text-primary transition-colors">
+              <ShoppingCart className="h-5 w-5" />
               {getTotalItems() > 0 && (
                 <Badge 
-                  variant="destructive" 
-                  className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-primary border-2 border-white pulse-badge"
                 >
                   {getTotalItems()}
                 </Badge>
@@ -61,27 +100,63 @@ const Header = () => {
             </Button>
           </Link>
 
+          {/* User section */}
           {user ? (
-            <div className="flex items-center gap-3">
-              <div className="hidden md:flex items-center gap-2 text-sm">
-                <User className="h-4 w-4" />
-                <span>{user.email}</span>
+            <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-sm">
+                <div className="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                  {user.email ? user.email[0].toUpperCase() : 'U'}
+                </div>
+                <span className="font-medium">{user.email ? user.email.split('@')[0] : 'User'}</span>
                 {isAdmin && (
-                  <Badge variant="secondary" className="text-xs">Admin</Badge>
+                  <Badge variant="secondary" className="text-xs bg-primary/10 text-primary">Admin</Badge>
                 )}
               </div>
-              <Button variant="ghost" size="sm" onClick={logout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Chiqish
+              <Button variant="ghost" size="icon" onClick={logout} className="rounded-full hover:bg-red-50 hover:text-red-500">
+                <LogOut className="h-4 w-4" />
               </Button>
             </div>
           ) : (
             <Link to="/login">
-              <Button size="sm">Kirish</Button>
+              <Button size="sm" className="rounded-full px-6 bg-gradient-to-r from-primary to-purple-600 hover:shadow-lg hover:shadow-primary/25 transition-all">
+                Kirish
+              </Button>
+            </Link>
+          )}
+          
+          {/* Mobile menu button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden rounded-full"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        </div>
+      </div>
+      
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t bg-white px-4 py-3 space-y-2 fade-in">
+          <Link 
+            to="/" 
+            className="block px-4 py-2 rounded-lg hover:bg-accent transition-colors"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Bosh Sahifa
+          </Link>
+          {isAdmin && (
+            <Link 
+              to="/admin" 
+              className="block px-4 py-2 rounded-lg hover:bg-accent transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Admin Panel
             </Link>
           )}
         </div>
-      </div>
+      )}
     </header>
   )
 }
