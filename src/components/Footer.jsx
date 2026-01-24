@@ -145,10 +145,8 @@ const Footer = () => {
         
         {/* Bottom */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-gray-500 flex items-center gap-2">
-            © {new Date().getFullYear()} TechStore. 
-            <span className="hidden sm:inline">Barcha huquqlar himoyalangan.</span>
-            <Heart className="h-4 w-4 text-red-500 fill-red-500 animate-pulse" />
+          <div className="text-sm text-gray-500">
+            © {new Date().getFullYear()} TechStore. Barcha huquqlar himoyalangan.
           </div>
           <div className="flex gap-6 text-sm text-gray-500">
             <a href="#" className="hover:text-white transition-colors">Maxfiylik siyosati</a>

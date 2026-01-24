@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button'
-import { CheckCircle, Home, ShoppingBag, Package, Truck, Clock } from 'lucide-react'
+import { CheckCircle, Home, ShoppingBag } from 'lucide-react'
 
 const SuccessPage = () => {
   const orderNumber = `ORD-${Date.now().toString().slice(-8)}`
@@ -32,32 +32,6 @@ const SuccessPage = () => {
               <p className="text-sm text-muted-foreground mb-2">Buyurtma raqami</p>
               <p className="text-2xl font-mono font-bold text-primary">{orderNumber}</p>
             </div>
-            
-            {/* Order steps */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="text-center p-4">
-                <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
-                  <Package className="h-6 w-6 text-green-600" />
-                </div>
-                <p className="text-xs text-muted-foreground">Tayyorlanmoqda</p>
-              </div>
-              <div className="text-center p-4">
-                <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
-                  <Truck className="h-6 w-6 text-blue-600" />
-                </div>
-                <p className="text-xs text-muted-foreground">Yetkazilmoqda</p>
-              </div>
-              <div className="text-center p-4">
-                <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-purple-100 flex items-center justify-center">
-                  <Clock className="h-6 w-6 text-purple-600" />
-                </div>
-                <p className="text-xs text-muted-foreground">1-3 kun</p>
-              </div>
-            </div>
-            
-            <p className="text-muted-foreground mb-8">
-              Xaridingiz uchun rahmat! Operator tez orada siz bilan bog'lanadi.
-            </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/">

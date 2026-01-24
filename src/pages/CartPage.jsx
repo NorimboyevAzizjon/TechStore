@@ -132,18 +132,6 @@ const CartPage = () => {
                 {user ? 'Buyurtma berish' : 'Kirish va buyurtma berish'}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              
-              {/* Trust badges */}
-              <div className="mt-6 pt-6 border-t space-y-3">
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Shield className="h-4 w-4 text-green-500" />
-                  Xavfsiz to'lov kafolati
-                </div>
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Truck className="h-4 w-4 text-blue-500" />
-                  Tez yetkazib berish xizmati
-                </div>
-              </div>
             </Card>
           </div>
         </div>
