@@ -220,12 +220,6 @@ const ProductPage = () => {
                     className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                   />
                   
-                  {/* Zoom hint */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ZoomIn className="h-4 w-4" />
-                    Kattalashtirish
-                  </div>
-                  
                   {/* Navigation arrows */}
                   {images.length > 1 && (
                     <>

@@ -1,118 +1,202 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Store, Facebook, Instagram, Send, Phone, Mail, MapPin } from 'lucide-react'
+import { Store, Facebook, Instagram, Send, Phone, Mail, MapPin, Heart, ShoppingBag, Sparkles, CreditCard, Truck, Shield, Clock } from 'lucide-react'
 
 const Footer = () => {
   return (
-    <footer className="border-t bg-gradient-to-b from-white to-gray-50 mt-auto">
+    <footer className="border-t bg-gradient-to-b from-gray-900 to-gray-950 text-white mt-auto">
+      {/* Top Features Bar */}
+      <div className="border-b border-gray-800">
+        <div className="container mx-auto px-4 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-800/50">
+              <div className="p-2 rounded-lg bg-green-500/20">
+                <Truck className="h-5 w-5 text-green-400" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">Bepul yetkazish</p>
+                <p className="text-xs text-gray-400">100,000+ buyurtmalar</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-800/50">
+              <div className="p-2 rounded-lg bg-blue-500/20">
+                <CreditCard className="h-5 w-5 text-blue-400" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">Xavfsiz to'lov</p>
+                <p className="text-xs text-gray-400">Payme, Click, Uzum</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-800/50">
+              <div className="p-2 rounded-lg bg-purple-500/20">
+                <Shield className="h-5 w-5 text-purple-400" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">Kafolat</p>
+                <p className="text-xs text-gray-400">1 yillik kafolat</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-800/50">
+              <div className="p-2 rounded-lg bg-orange-500/20">
+                <Clock className="h-5 w-5 text-orange-400" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">24/7 Qo'llab-quvvatlash</p>
+                <p className="text-xs text-gray-400">Har doim aloqada</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-purple-600 text-white">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-purple-600 text-white shadow-lg shadow-primary/25">
                 <Store className="h-5 w-5" />
               </div>
-              <span className="gradient-text">TechStore</span>
+              <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">TechStore</span>
             </Link>
-            <p className="text-muted-foreground text-sm">
-              Eng so'nggi texnologiyalar va gadjetlar do'koni. Sifat va ishonchlilik kafolati.
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Eng so'nggi texnologiyalar va gadjetlar do'koni. Sifat va ishonchlilik kafolati bilan xizmat ko'rsatamiz.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors">
-                <Facebook className="h-4 w-4" />
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-gray-800 text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300">
+                <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="p-2 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity">
-                <Instagram className="h-4 w-4" />
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-gray-800 text-gray-400 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 hover:text-white transition-all duration-300">
+                <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="p-2 rounded-full bg-sky-500 text-white hover:bg-sky-600 transition-colors">
-                <Send className="h-4 w-4" />
+              <a href="https://t.me/techstore_uz" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-gray-800 text-gray-400 hover:bg-sky-500 hover:text-white transition-all duration-300">
+                <Send className="h-5 w-5" />
               </a>
             </div>
           </div>
           
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Havolalar</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold mb-4 text-lg flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              Havolalar
+            </h4>
+            <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
                   Bosh sahifa
                 </Link>
               </li>
               <li>
-                <Link to="/favorites" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/favorites" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                   Sevimlilar
                 </Link>
               </li>
               <li>
-                <Link to="/cart" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/cart" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                   Savatcha
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Aksiyalar
-                </a>
+                <Link to="/?discount=true" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+                  Chegirmalar
+                </Link>
               </li>
             </ul>
           </div>
           
           {/* Categories */}
           <div>
-            <h4 className="font-semibold mb-4">Kategoriyalar</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold mb-4 text-lg flex items-center gap-2">
+              <ShoppingBag className="h-4 w-4 text-primary" />
+              Kategoriyalar
+            </h4>
+            <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/?category=smartphones" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                   Smartfonlar
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/?category=laptops" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
                   Noutbuklar
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Aksessuarlar
-                </a>
+                <Link to="/?category=fragrances" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-pink-500"></span>
+                  Parfyumeriya
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Smart soatlar
-                </a>
+                <Link to="/?category=skincare" className="text-gray-400 hover:text-white hover:pl-2 transition-all duration-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
+                  Teri parvarishi
+                </Link>
               </li>
             </ul>
           </div>
           
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4">Bog'lanish</h4>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2 text-muted-foreground">
-                <Phone className="h-4 w-4 text-primary" />
-                +998 90 123 45 67
+            <h4 className="font-semibold mb-4 text-lg flex items-center gap-2">
+              <Phone className="h-4 w-4 text-primary" />
+              Bog'lanish
+            </h4>
+            <ul className="space-y-4 text-sm">
+              <li>
+                <a href="tel:+998901234567" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors p-3 rounded-xl bg-gray-800/50 hover:bg-gray-800">
+                  <div className="p-2 rounded-lg bg-green-500/20">
+                    <Phone className="h-4 w-4 text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Telefon</p>
+                    <p className="font-medium">+998 90 123 45 67</p>
+                  </div>
+                </a>
               </li>
-              <li className="flex items-center gap-2 text-muted-foreground">
-                <Mail className="h-4 w-4 text-primary" />
-                info@techstore.uz
+              <li>
+                <a href="mailto:info@techstore.uz" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors p-3 rounded-xl bg-gray-800/50 hover:bg-gray-800">
+                  <div className="p-2 rounded-lg bg-blue-500/20">
+                    <Mail className="h-4 w-4 text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Email</p>
+                    <p className="font-medium">info@techstore.uz</p>
+                  </div>
+                </a>
               </li>
-              <li className="flex items-start gap-2 text-muted-foreground">
-                <MapPin className="h-4 w-4 text-primary mt-0.5" />
-                Toshkent sh., Chilonzor tumani
+              <li>
+                <div className="flex items-center gap-3 text-gray-400 p-3 rounded-xl bg-gray-800/50">
+                  <div className="p-2 rounded-lg bg-purple-500/20">
+                    <MapPin className="h-4 w-4 text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Manzil</p>
+                    <p className="font-medium">Toshkent sh., Chilonzor tumani</p>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
         </div>
         
         {/* Bottom */}
-        <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} TechStore. Barcha huquqlar himoyalangan.
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-sm text-gray-500 flex items-center gap-2">
+            © {new Date().getFullYear()} TechStore. 
+            <span className="hidden sm:inline">Barcha huquqlar himoyalangan.</span>
+            <Heart className="h-4 w-4 text-red-500 fill-red-500 animate-pulse" />
           </div>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors">Maxfiylik siyosati</a>
-            <a href="#" className="hover:text-primary transition-colors">Foydalanish shartlari</a>
+          <div className="flex gap-6 text-sm text-gray-500">
+            <a href="#" className="hover:text-white transition-colors">Maxfiylik siyosati</a>
+            <a href="#" className="hover:text-white transition-colors">Foydalanish shartlari</a>
           </div>
         </div>
       </div>
