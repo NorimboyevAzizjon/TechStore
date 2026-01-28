@@ -101,22 +101,22 @@ const Header = () => {
           {/* User section */}
           {user ? (
             <div className="flex items-center gap-2">
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-sm">
-                <div className="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                  {user.email ? user.email[0].toUpperCase() : 'U'}
+              <Link to="/profile" className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-sm hover:bg-accent/80 transition-colors">
+                <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+                  {user.name ? user.name[0].toUpperCase() : user.email ? user.email[0].toUpperCase() : 'U'}
                 </div>
-                <span className="font-medium">{user.email ? user.email.split('@')[0] : 'User'}</span>
+                <span className="font-medium">{user.name || (user.email ? user.email.split('@')[0] : 'User')}</span>
                 {isAdmin && (
-                  <Badge variant="secondary" className="text-xs bg-primary/10 text-primary">Admin</Badge>
+                  <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-600">Admin</Badge>
                 )}
-              </div>
+              </Link>
               <Button variant="ghost" size="icon" onClick={logout} className="rounded-full hover:bg-red-50 hover:text-red-500">
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
           ) : (
             <Link to="/login">
-              <Button size="sm" className="rounded-full px-6 bg-gradient-to-r from-primary to-purple-600 hover:shadow-lg hover:shadow-primary/25 transition-all">
+              <Button size="sm" className="rounded-full px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all">
                 Kirish
               </Button>
             </Link>

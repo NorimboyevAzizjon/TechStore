@@ -133,7 +133,13 @@ const LoginPage = () => {
             </form>
           </CardContent>
           
-          <CardFooter className="pt-0">
+          <CardFooter className="flex flex-col gap-4 pt-0">
+            <div className="text-center text-sm">
+              <span className="text-muted-foreground">Hisobingiz yo'qmi? </span>
+              <Link to="/register" className="text-primary hover:underline font-medium">
+                Ro'yxatdan o'tish
+              </Link>
+            </div>
             <Link 
               to="/" 
               className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2"

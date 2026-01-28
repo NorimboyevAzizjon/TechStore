@@ -9,9 +9,13 @@ import ProductPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
 import FavoritesPage from './pages/FavoritesPage'
 import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 import SuccessPage from './pages/SuccessPage'
 import AdminDashboard from './pages/AdminDashboard'
+import ProfilePage from './pages/ProfilePage'
+import NotFoundPage from './pages/NotFoundPage'
 import PrivateRoute from './components/PrivateRoute'
+import { Toaster } from './components/ui/toaster'
 
 function App() {
   return (
@@ -28,7 +32,9 @@ function App() {
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/favorites" element={<FavoritesPage />} />
                   <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
                   <Route path="/success" element={<SuccessPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
                   <Route 
                     path="/admin" 
                     element={
@@ -37,9 +43,11 @@ function App() {
                       </PrivateRoute>
                     } 
                   />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </main>
               <Footer />
+              <Toaster />
             </div>
           </BrowserRouter>
         </FavoritesProvider>
